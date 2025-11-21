@@ -45,13 +45,16 @@ for csv_file in csv_files do(
 )
 
 /* Sun Positioner */
-
 sun_pos = Sun_Positioner()
-sun_pos.mode = 1
+
+--sun_pos = $SunPositioner001
+
+sun_mode = sun_pos.mode -- Sun positioner mode
 
 --Time
 sun_pos.hours = 14
 sun_pos.minutes = 6
+--sun_pos.time_in_seconds
 
 --Date
 sun_pos.day = 20
@@ -60,17 +63,31 @@ sun_pos.year = 2024
 
 --Daylight Saving Time
 sun_pos.dst = false
+--sun_pos.dst_use_date_range
+--sun_pos.dst_start_day
+--sun_pos.dst_start_month
+--sun_pos.dst_end_day
+--sun_pos.dst_end_month
 
 --Location
-sun_pos.time_zone = 0
+--sun_pos.location
+sun_pos.time_zone = 0.0
 sun_pos.latitude_deg = 51.5
-sun_pos.longitude_deg = -0.17
+sun_pos.longitude_deg = -0.117
 
+--Compass Rose
+--sun_pos.show_compass
+--sun_pos.compass_radius
 sun_pos.north_direction_deg = 347.078
+--sun_pos.sun_distance
+
+--Horizontal Coordinates
+--sun_pos.azimuth_deg
+--sun_pos.altitude_deg
 
 --Viewport
 bmpImg = bitmapTexture()
-bmpImg.fileName = "D:\\Angelo\\Freelance\\jamiecardoso\\assets\\View 06_20mm_Shift_ROT_CW_0_12.jpg"
+bmpImg.fileName = "C:\\Verified ViewsTutorial\\New Verified View Script\\V6\\View 06_20mm_Shift_ROT_CW_0_12.jpg"
 
 -- Set it as the viewport background
 setAsBackground bmpImg.bitmap
@@ -78,15 +95,31 @@ setAsBackground bmpImg.bitmap
 viewport.DispBkgImage = true
 -- Now display it in the viewport
 
-
 -- Force viewport to update
 completeRedraw()
 
 actionMan.executeAction 0 "620"
 setBkgImageAspect #output
 
-cam =  Physical name:"V6_6016x4016"
+--Camera
 
+find_dummy_cam_point = for o in objects where findString o.name "Camera" != undefined collect o
+dummy_cam_point = find_dummy_cam_point[1]
+
+cam =  Physical name:"V6_6016x4016"
+DisplaySafeFrames = true
+viewport.SetCamera cam
+cam.rotation = eulerAngles -90 22 0
+cam.pos = dummy_cam_point.pos
+
+--Renderers
+renderer_classes = RendererClass.classes
+renderers.current = renderer_classes[1]()
+rendLockImageAspectRatio = true
+renderWidth = 6016
+renderHeight = 4016
+--rendImageAspectRatio 
+renderSceneDialog.update()
 
 
 
